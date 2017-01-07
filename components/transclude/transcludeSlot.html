@@ -1,0 +1,31 @@
+<html>
+<body ng-app="myApp">
+<div ng-controller="myCtrl">
+    <my-directive> <label>{{hello}}</label></lable> <div>{{person}}</div></my-directive>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+<script>
+    var myapp = angular.module('myApp', []);
+
+    myapp.controller('myCtrl', function($scope){
+      $scope.hello = "Hello";
+      $scope.person = "Justin";
+    });
+
+    myapp.directive('myDirective', function(){
+      return {
+        restrict:'E',
+        transclude: {
+          greeting: 'label',
+          target : 'div'
+        },
+        template:'Greeting sample: <div> <span ng-transclude="greeting"> </span> <span ng-transclude="target"></span></div>'
+      }
+    })
+
+</script>
+
+</body>
+</html>
