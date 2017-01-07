@@ -1,0 +1,52 @@
+<html>
+<body ng-app="myApp">
+<div ng-controller="myController">
+    <node root="root">
+        <node root="child"></node>
+    </node>
+
+</div>
+
+<script type="text/ng-template" id="treeTemplate">
+    <tree root="root"><p>{{ root.name }}</p>
+        <ul>
+            <li ng-repeat="child in root.children">
+                <tree root="child"></tree>
+            </li>
+        </ul>
+    </tree>
+</script>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+
+<script>
+     (function(app){
+        app.directive("node", function(){
+           return {
+              scope: {
+                 root: '='
+              },
+              transclude: true,
+              template: '<p>{{ root.name }}</p><ul><li ng-repeat="child in root.children"><ng-transclude></ng-transclude></li></ul>'
+           }
+        })
+        .controller('myController', function($scope){
+                 $scope.root = {
+                    name: 'earth',
+                    children: [
+                       {name: 'asia',
+                        children: [
+                          {name: 'China'},
+                          {name: 'Japan'}
+                        ]},
+                       {name: 'europe'},
+                       {name: 'africa'},
+                       {name: 'america'}
+                    ]
+                 }
+        });
+     }(angular.module("myApp", [])));
+</script>
+</body>
+</html>

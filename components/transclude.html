@@ -1,0 +1,54 @@
+<html>
+<body ng-app="myApp">
+<div ng-controller="myController">
+    <node root="root">
+        <div>{{greeting}}</div>
+    </node>
+</div>
+
+<script type="text/ng-template" id="/template.html">
+    <br/>
+    <details>
+        <summary>{{ root.name }}</summary>
+        <ul ng-repeat="child in root.children">
+            <node root="child"></node>
+        </ul>
+    </details>
+    <ng-transclude></ng-transclude>
+</script>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+<script>
+     (function(app){
+        app.directive("node", function(){
+           return {
+              scope: {
+                 root: '='
+              },
+              transclude: true,
+              templateUrl: '/template.html'
+           }
+        })
+        .controller('myController', function($scope){
+                 $scope.root = {
+                    name: 'earth',
+                    children: [
+                       {name: 'asia',
+                        children: [
+                          {name: 'China'},
+                          {name: 'Japan'}
+                        ]},
+                       {name: 'europe'},
+                       {name: 'africa'},
+                       {name: 'america'}
+                    ]
+                 },
+
+                     $scope.greeting = "hello world";
+        });
+     }(angular.module("myApp", [])));
+
+</script>
+</body>
+</html>

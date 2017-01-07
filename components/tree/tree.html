@@ -1,0 +1,61 @@
+<html ng-app='app'>
+<body ng-controller="ctrl">
+<p><node item="o"></node></p>
+
+<script type="text/ng-template" id="node.html">
+    <details>
+        <summary>{{item.name}}
+            <button ng-click="add(item, {name: 'test'})">add node</button>
+        </summary>
+        <ul>
+            <node ng-repeat="child in item.children" item="child"></node>
+        </ul>
+    </details>
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+<script>
+     	 angular.module("app", [])
+     	   .directive('node', function () {
+     	     return {
+     	       restrict: "E",
+     	       replace: true,
+     	       scope: {
+     	         item: "="
+     	       },
+               controller: function($scope){
+                 $scope.add = function(item, data){
+                     if(item.children) {
+                       item.children.push(data);
+                     }else{
+                         item.children = [];
+                         item.children.push(data);
+                     }
+                 }
+               },
+     	       templateUrl: "node.html"
+     	   }})
+     	   .controller("ctrl", function ($scope) {
+     	     $scope.o = {
+     	       name: "Earth",
+     	       children: [
+     	         {name: "America",
+     	          children: [
+     	            {name: "North America",
+     	             children: [
+     	              {name: "USA"},
+     	              {name: "Canada"}
+     	             ]
+                    },
+     	            {name: "South America"}
+     	          ]
+     	         },
+     	         {name: "Europe"}
+     	       ]
+     	    };
+     	  });
+
+</script>
+
+</body>
+</html>
